@@ -1,0 +1,30 @@
+name: Daily Activity Tracker
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs at midnight UTC daily
+  workflow_dispatch: # Allows manual trigger of the workflow
+
+jobs:
+  generate-log:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Run script to generate daily log
+      run: python scripts/generate_log.py
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.name "GitHub Actions Bot"
+        git config --local user.email "<>"
+        git add daily_logs/
+        git commit -m "Create daily log for $(date '+%Y-%m-%d')" || echo "No changes to commit"
+        git push
