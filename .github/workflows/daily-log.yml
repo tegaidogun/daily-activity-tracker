@@ -2,8 +2,8 @@ name: Daily Activity Tracker
 
 on:
   schedule:
-    - cron: "0 0 * * *" # Runs at midnight UTC daily
-  workflow_dispatch: # Allows manual trigger of the workflow
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:
   generate-log:
@@ -22,9 +22,12 @@ jobs:
       run: python scripts/generate_log.py
 
     - name: Commit and push changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
-        git config --local user.name "GitHub Actions Bot"
-        git config --local user.email "<>"
+        git config --local user.name "Eric Idogun" 
+        git config --local user.email "idogunoghenetega@gmail.com"
         git add daily_logs/
         git commit -m "Create daily log for $(date '+%Y-%m-%d')" || echo "No changes to commit"
-        git push
+        git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/tegaidogun/daily-activity-tracker.git
+
