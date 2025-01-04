@@ -1,6 +1,0 @@
-# Daily Activity Log for 2025-01-04
-
-## Activities:
-- [ ] Task 1
-- [ ] Task 2
-
